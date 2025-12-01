@@ -29,7 +29,7 @@ public class ItemCollection extends DPlugin {
     public static @Nullable ItemStack checkItem;
 
     public ItemCollection() {
-        super(false);
+        super(true);
         plugin = this;
         init();
         categories = loadDataContainer(new DataContainer<>(this, DataType.CUSTOM, "categories"), Category.class);

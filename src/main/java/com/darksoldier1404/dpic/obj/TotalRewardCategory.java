@@ -9,7 +9,7 @@ public class TotalRewardCategory extends Category {
     public TotalRewardCategory() {
         setName("Total Rewards");
         setType(CategoryType.TOTAL_REWARD_ONLY);
-        setInventory(new DInventory("Total Reward Collection", 54, true, true, plugin));
+        setInventory(new DInventory(plugin.getLang().get("inv_title_totalreward"), 54, true, true, plugin));
         setTotalRewardCategory(true);
     }
 

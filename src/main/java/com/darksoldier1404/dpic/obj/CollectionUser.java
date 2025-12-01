@@ -138,10 +138,10 @@ public class CollectionUser implements DataCargo {
 
     public void openRewardClaimInventory(Player p, String categoryName, boolean openTotalRewards) {
         if (plugin.checkItem == null) {
-            p.sendMessage("§c[DPIC] §f체크 아이템이 설정되지 않았습니다. 관리자에게 문의하세요.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event_checkitem_notset"));
             return;
         }
-        DInventory inv = new DInventory("콜렉션 리워드 수령 : " + categoryName, 54, true, true, plugin);
+        DInventory inv = new DInventory(plugin.getLang().getWithArgs("inv_title_collectionrewardclaim", categoryName), 54, true, true, plugin);
         inv.setChannel(1);
         Category category;
         if (openTotalRewards) {
@@ -170,8 +170,8 @@ public class CollectionUser implements DataCargo {
             }
             String name = (claimed ? "§7" : (canClaim ? "§a" : "§c")) + reward.getName();
             List<String> lore = new ArrayList<>();
-            lore.add("§f- 리워드 단계: §e" + step);
-            lore.add("§f- 수령 가능 여부: " + (claimed ? "§7이미 수령함" : (canClaim ? "§a수령 가능" : "§c수령 불가")));
+            lore.add(plugin.getLang().getWithArgs("lore_1", String.valueOf(step)));
+            lore.add(plugin.getLang().getWithArgs("lore_2", claimed ? plugin.getLang().get("lore_option_1") : (canClaim ? plugin.getLang().get("lore_option_2") : plugin.getLang().get("lore_option_3"))));
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(name);
             meta.setLore(lore);

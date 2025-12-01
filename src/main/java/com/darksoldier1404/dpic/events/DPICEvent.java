@@ -92,15 +92,15 @@ public class DPICEvent implements Listener {
                     boolean canClaim = NBT.getBooleanTag(item, "dpic_canclaim");
                     boolean isClaimed = NBT.getBooleanTag(item, "dpic_claimed");
                     if (isClaimed) {
-                        p.sendMessage(plugin.prefix + "§c이미 수령한 리워드입니다.");
+                        p.sendMessage(plugin.prefix + plugin.getLang().get("event_reward_alreadyclaimed"));
                         return;
                     }
                     if (!canClaim) {
-                        p.sendMessage(plugin.prefix + "§c이 리워드는 아직 수령할 수 없습니다.");
+                        p.sendMessage(plugin.prefix + plugin.getLang().get("event_reward_notavailable"));
                         return;
                     }
                     if (plugin.checkItem == null) {
-                        p.sendMessage("§c[DPIC] §f체크 아이템이 설정되지 않았습니다. 관리자에게 문의하세요.");
+                        p.sendMessage(plugin.prefix + plugin.getLang().get("event_checkitem_notset"));
                         return;
                     }
                     String rewardKey = NBT.getStringTag(item, "dpic_rewardname");
@@ -114,7 +114,7 @@ public class DPICEvent implements Listener {
                             } else {
                                 user.claimCategoryReward(category.getName(), step);
                             }
-                            p.sendMessage(plugin.prefix + "§a콜렉션 리워드를 수령하였습니다.");
+                            p.sendMessage(plugin.prefix + plugin.getLang().getWithArgs("event_reward_claimed", category.getName()));
                             user.openRewardClaimInventory(p, category.getName(), category.isTotalRewardCategory());
                         }
                     }
