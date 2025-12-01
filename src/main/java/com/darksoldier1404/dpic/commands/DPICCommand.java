@@ -14,7 +14,7 @@ public class DPICCommand {
     CommandBuilder builder = new CommandBuilder(plugin);
 
     public DPICCommand() {
-        builder.addSubCommand("create", "dpic.admin", "/dpic create <collection/reward> <name>", (p, args) -> {
+        builder.addSubCommand("create", "dpic.admin", plugin.getLang().get("cmd.create.help"), (p, args) -> {
             if (args.length == 3) {
                 if (args[1].equalsIgnoreCase("collection")) {
                     DPICFunction.createCollection(p, args[2]);
@@ -23,14 +23,14 @@ public class DPICCommand {
                     DPICFunction.createReward(p, args[2]);
                     return true;
                 } else {
-                    p.sendMessage(plugin.getPrefix() + "§c올바른 타입이 아닙니다. (collection/reward)");
+                    p.sendMessage(plugin.getPrefix() + plugin.getLang().get("cmd.error.type"));
                     return true;
                 }
             }
             return false;
         });
 
-        builder.addSubCommand("maxpage", "dpic.admin", "/dpic maxpage <collection> <maxPage>", (p, args) -> {
+        builder.addSubCommand("maxpage", "dpic.admin", plugin.getLang().get("cmd.maxpage.help"), (p, args) -> {
             if (args.length == 3) {
                 DPICFunction.setMaxPage(p, args[1], args[2]);
                 return true;
@@ -38,14 +38,14 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("items", "dpic.admin", "/dpic items <collection/reward> <name>", (p, args) -> {
+        builder.addSubCommand("items", "dpic.admin", plugin.getLang().get("cmd.items.help"), (p, args) -> {
             if (args.length == 3) {
                 if (args[1].equalsIgnoreCase("collection")) {
                     DPICFunction.editCollectionItems(p, args[2]);
                 } else if (args[1].equalsIgnoreCase("reward")) {
                     DPICFunction.editRewardItems(p, args[2]);
                 } else {
-                    p.sendMessage(plugin.getPrefix() + "§c올바른 타입이 아닙니다. (collection/reward)");
+                    p.sendMessage(plugin.getPrefix() + plugin.getLang().get("cmd.error.type"));
                     return true;
                 }
                 return true;
@@ -53,7 +53,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("addcmdreward", "dpic.admin", "/dpic addcmdreward <rewardName> <command>", (p, args) -> {
+        builder.addSubCommand("addcmdreward", "dpic.admin", plugin.getLang().get("cmd.addcmdreward.help"), (p, args) -> {
             if (args.length >= 3) {
                 String command = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
                 DPICFunction.addCommandReward(p, args[1], command);
@@ -62,7 +62,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("removecmdreward", "dpic.admin", "/dpic removecmdreward <rewardName> <index>", (p, args) -> {
+        builder.addSubCommand("removecmdreward", "dpic.admin", plugin.getLang().get("cmd.removecmdreward.help"), (p, args) -> {
             if (args.length >= 3) {
                 DPICFunction.removeCommandReward(p, args[1], args[2]);
                 return true;
@@ -70,7 +70,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("setcollectionreward", "dpic.admin", "/dpic setreward <collectionName> <rewardName> <step>", (p, args) -> {
+        builder.addSubCommand("setcollectionreward", "dpic.admin", plugin.getLang().get("cmd.setcollectionreward.help"), (p, args) -> {
             if (args.length == 4) {
                 DPICFunction.setRewardToCollection(p, args[1], args[2], args[3]);
                 return true;
@@ -78,7 +78,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("removecollectionreward", "dpic.admin", "/dpic removereward <collectionName> <step>", (p, args) -> {
+        builder.addSubCommand("removecollectionreward", "dpic.admin", plugin.getLang().get("cmd.removecollectionreward.help"), (p, args) -> {
             if (args.length == 3) {
                 DPICFunction.removeRewardFromCollection(p, args[1], args[2]);
                 return true;
@@ -87,7 +87,7 @@ public class DPICCommand {
         });
 
         // total reward set
-        builder.addSubCommand("settotalreward", "dpic.admin", "/dpic settotalreward <rewardName> <step>", (p, args) -> {
+        builder.addSubCommand("settotalreward", "dpic.admin", plugin.getLang().get("cmd.settotalreward.help"), (p, args) -> {
             if (args.length == 3) {
                 DPICFunction.setTotalReward(p, args[1], args[2]);
                 return true;
@@ -95,7 +95,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("removetotalreward", "dpic.admin", "/dpic removetotalreward <step>", (p, args) -> {
+        builder.addSubCommand("removetotalreward", "dpic.admin", plugin.getLang().get("cmd.removetotalreward.help"), (p, args) -> {
             if (args.length == 2) {
                 DPICFunction.removeTotalReward(p, args[1]);
                 return true;
@@ -103,7 +103,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("checkitem", "dpic.admin", "/dpic checkitem", (p, args) -> {
+        builder.addSubCommand("checkitem", "dpic.admin", plugin.getLang().get("cmd.checkitem.help"), (p, args) -> {
             if (args.length == 1) {
                 DPICFunction.openCheckItemSettingGUI(p);
                 return true;
@@ -111,7 +111,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("open", "/dpic open <collectionName>", (p, args) -> {
+        builder.addSubCommand("open", plugin.getLang().get("cmd.open.help"), (p, args) -> {
             if (args.length == 2) {
                 DPICFunction.openCollection(p, args[1]);
                 return true;
@@ -119,7 +119,7 @@ public class DPICCommand {
             return false;
         });
 
-        builder.addSubCommand("openrewardclaim", "/dpic openrewardclaim (collectionName) - 콜렉션 이름을 지정하지 않으면 전체 보상으로 오픈합니다.", (p, args) -> {
+        builder.addSubCommand("openrewardclaim", plugin.getLang().get("cmd.openrewardclaim.help"), (p, args) -> {
             if (args.length == 1) {
                 DPICFunction.openTotalRewardClaimInventory(p);
                 return true;

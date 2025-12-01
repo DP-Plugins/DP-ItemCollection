@@ -52,27 +52,27 @@ public class DPICFunction {
 
     public static void createCollection(CommandSender sender, String name) {
         if (isExistCollection(name)) {
-            sender.sendMessage(plugin.getPrefix() + "§c이미 존재하는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.already_exists"));
             return;
         }
         Category category = new Category();
         category.setName(name);
         category.setType(CategoryType.TOTAL_REWARD_ONLY);
-        DInventory inv = new DInventory("아이템 콜렉션", 54, true, true, plugin);
+        DInventory inv = new DInventory(plugin.getLang().getWithArgs("inv.title.collection", name), 54, true, true, plugin);
         category.setInventory(inv);
         plugin.categories.put(name, category);
         plugin.categories.saveAll();
-        sender.sendMessage(plugin.getPrefix() + "§a성공적으로 컬렉션을 생성하였습니다.");
+        sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.created"));
     }
 
     public static void createReward(CommandSender sender, String name) {
         if (isExistReward(name)) {
-            sender.sendMessage(plugin.getPrefix() + "§c이미 존재하는 리워드 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.already_exists"));
             return;
         }
-        plugin.rewards.put(name, new Reward(name, new DInventory("리워드 아이템", 27, plugin)));
+        plugin.rewards.put(name, new Reward(name, new DInventory(plugin.getLang().getWithArgs("inv.title.reward", name), 27, plugin)));
         plugin.rewards.saveAll();
-        sender.sendMessage(plugin.getPrefix() + "§a성공적으로 리워드를 생성하였습니다.");
+        sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.created"));
     }
 
     public static boolean isExistCollection(String name) {
@@ -85,31 +85,31 @@ public class DPICFunction {
 
     public static void setMaxPage(CommandSender sender, String collectionName, String sMaxPage) {
         if (!isExistCollection(collectionName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         try {
             int maxPage = Integer.parseInt(sMaxPage);
             if (maxPage < 1) {
-                sender.sendMessage(plugin.getPrefix() + "§c최대 페이지는 1 이상이어야 합니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.max_page.at_least_one"));
                 return;
             }
             plugin.categories.get(collectionName).setMaxPage(maxPage);
             plugin.categories.saveAll();
-            sender.sendMessage(plugin.getPrefix() + "§a성공적으로 최대 페이지를 설정하였습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.max_page.set"));
         } catch (NumberFormatException e) {
-            sender.sendMessage(plugin.getPrefix() + "§c올바른 숫자가 아닙니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.not_a_number"));
         }
     }
 
     public static void editCollectionItems(CommandSender sender, String name) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getPrefix() + "§c플레이어만 실행할 수 있는 명령어입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.player_only"));
             return;
         }
         Player p = (Player) sender;
         if (!isExistCollection(name)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         Category category = plugin.categories.get(name);
@@ -123,29 +123,29 @@ public class DPICFunction {
 
     public static void saveCollectionItems(Player p, DInventory inv) {
         if (inv.getObj() == null) {
-            p.sendMessage(plugin.getPrefix() + "§c오류가 발생하였습니다. (오브젝트 없음)");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.no_object"));
             return;
         }
         String name = (String) inv.getObj();
         if (!isExistCollection(name)) {
-            p.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         Category category = plugin.categories.get(name);
         category.setInventory(inv);
         plugin.categories.put(name, category);
         plugin.categories.saveAll();
-        p.sendMessage(plugin.getPrefix() + "§a성공적으로 아이템을 저장하였습니다.");
+        p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.item.saved"));
     }
 
     public static void editRewardItems(CommandSender sender, String name) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getPrefix() + "§c플레이어만 실행할 수 있는 명령어입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.player_only"));
             return;
         }
         Player p = (Player) sender;
         if (!isExistReward(name)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 리워드 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_found"));
             return;
         }
         Reward reward = plugin.rewards.get(name);
@@ -159,34 +159,34 @@ public class DPICFunction {
 
     public static void saveRewardItems(Player p, DInventory inv) {
         if (inv.getObj() == null) {
-            p.sendMessage(plugin.getPrefix() + "§c오류가 발생하였습니다. (오브젝트 없음)");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.no_object"));
             return;
         }
         String name = (String) inv.getObj();
         if (!isExistReward(name)) {
-            p.sendMessage(plugin.getPrefix() + "§c존재하지 않는 리워드 이름입니다.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_found"));
             return;
         }
         Reward reward = plugin.rewards.get(name);
         reward.setInventory(inv);
         plugin.rewards.put(name, reward);
         plugin.rewards.saveAll();
-        p.sendMessage(plugin.getPrefix() + "§a성공적으로 아이템을 저장하였습니다.");
+        p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.item.saved"));
     }
 
     public static void setRewardToCollection(CommandSender sender, String collectionName, String rewardName, String sStep) {
         if (!isExistCollection(collectionName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         if (!isExistReward(rewardName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 리워드 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_found"));
             return;
         }
         try {
             int step = Integer.parseInt(sStep);
             if (step < 1) {
-                sender.sendMessage(plugin.getPrefix() + "§c스텝은 1 이상이어야 합니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.step.at_least_one"));
                 return;
             }
             Category category = plugin.categories.get(collectionName);
@@ -194,44 +194,44 @@ public class DPICFunction {
             category.getRewards().put(step, reward);
             plugin.categories.put(collectionName, category);
             plugin.categories.saveAll();
-            sender.sendMessage(plugin.getPrefix() + "§a성공적으로 리워드를 설정하였습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.set"));
         } catch (NumberFormatException e) {
-            sender.sendMessage(plugin.getPrefix() + "§c올바른 숫자가 아닙니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.not_a_number"));
         }
     }
 
     public static void removeRewardFromCollection(CommandSender sender, String collectionName, String sStep) {
         if (!isExistCollection(collectionName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         try {
             int step = Integer.parseInt(sStep);
             if (step < 1) {
-                sender.sendMessage(plugin.getPrefix() + "§c스텝은 1 이상이어야 합니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.step.at_least_one"));
                 return;
             }
             Category category = plugin.categories.get(collectionName);
             if (!category.getRewards().containsKey(step)) {
-                sender.sendMessage(plugin.getPrefix() + "§c해당 스텝에 설정된 리워드가 없습니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_set_for_step"));
                 return;
             }
             category.getRewards().remove(step);
             plugin.categories.put(collectionName, category);
             plugin.categories.saveAll();
-            sender.sendMessage(plugin.getPrefix() + "§a성공적으로 리워드를 제거하였습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.removed"));
         } catch (NumberFormatException e) {
-            sender.sendMessage(plugin.getPrefix() + "§c올바른 숫자가 아닙니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.not_a_number"));
         }
     }
 
     public static void openCheckItemSettingGUI(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getPrefix() + "§c플레이어만 실행할 수 있는 명령어입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.player_only"));
             return;
         }
         Player p = (Player) sender;
-        DInventory inv = new DInventory("체크 표시 아이템 설정", 27, plugin);
+        DInventory inv = new DInventory(plugin.getLang().get("inv.title.checkitem"), 27, plugin);
         ItemStack pane = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta meta = pane.getItemMeta();
         meta.setDisplayName(" ");
@@ -253,23 +253,23 @@ public class DPICFunction {
         if (item == null || item.getType() == Material.GRAY_STAINED_GLASS_PANE) {
             plugin.config.set("Settings.checkItem", null);
             plugin.saveConfig();
-            p.sendMessage(plugin.getPrefix() + "§a성공적으로 체크 표시 아이템을 제거하였습니다.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.check_item.removed"));
             return;
         }
         plugin.config.set("Settings.checkItem", item);
         plugin.saveDataContainer();
         plugin.checkItem = item;
-        p.sendMessage(plugin.getPrefix() + "§a성공적으로 체크 표시 아이템을 설정하였습니다.");
+        p.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.check_item.set"));
     }
 
     public static void openCollection(CommandSender sender, String name) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getPrefix() + "§c플레이어만 실행할 수 있는 명령어입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.player_only"));
             return;
         }
         Player p = (Player) sender;
         if (!isExistCollection(name)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         Category category = plugin.categories.get(name);
@@ -278,54 +278,54 @@ public class DPICFunction {
 
     public static void setTotalReward(CommandSender sender, String rewardName, String sStep) {
         if (!isExistReward(rewardName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 리워드 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_found"));
             return;
         }
         try {
             int step = Integer.parseInt(sStep);
             if (step < 1) {
-                sender.sendMessage(plugin.getPrefix() + "§c스텝은 1 이상이어야 합니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.step.at_least_one"));
                 return;
             }
             plugin.totalRewardCategory.getRewards().put(step, plugin.rewards.get(rewardName));
             ConfigUtils.saveCustomData(plugin, plugin.totalRewardCategory.serialize(), "totalRewardCategory", "totalRewardCategory");
-            sender.sendMessage(plugin.getPrefix() + "§a성공적으로 토탈 리워드를 설정하였습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.total_reward.set"));
         } catch (NumberFormatException e) {
-            sender.sendMessage(plugin.getPrefix() + "§c올바른 숫자가 아닙니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.not_a_number"));
         }
     }
 
     public static void removeTotalReward(CommandSender sender, String sStep) {
         if (!isExistCollection("total_reward")) {
-            sender.sendMessage(plugin.getPrefix() + "§c토탈 리워드 카테고리가 존재하지 않습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.total_reward.category_not_found"));
             return;
         }
         try {
             int step = Integer.parseInt(sStep);
             if (step < 1) {
-                sender.sendMessage(plugin.getPrefix() + "§c스텝은 1 이상이어야 합니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.step.at_least_one"));
                 return;
             }
             if (!plugin.totalRewardCategory.getRewards().containsKey(step)) {
-                sender.sendMessage(plugin.getPrefix() + "§c해당 스텝에 설정된 리워드가 없습니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_set_for_step"));
                 return;
             }
             plugin.totalRewardCategory.getRewards().remove(step);
             plugin.saveDataContainer();
-            sender.sendMessage(plugin.getPrefix() + "§a성공적으로 토탈 리워드를 제거하였습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.total_reward.removed"));
         } catch (NumberFormatException e) {
-            sender.sendMessage(plugin.getPrefix() + "§c올바른 숫자가 아닙니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.not_a_number"));
         }
     }
 
     public static void openRewardClaimInventory(CommandSender sender, String collectionName) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getPrefix() + "§c플레이어만 실행할 수 있는 명령어입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.player_only"));
             return;
         }
         Player p = (Player) sender;
         if (!isExistCollection(collectionName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 컬렉션 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.collection.not_found"));
             return;
         }
         CollectionUser user = plugin.udata.get(p.getUniqueId());
@@ -337,7 +337,7 @@ public class DPICFunction {
 
     public static void openTotalRewardClaimInventory(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getPrefix() + "§c플레이어만 실행할 수 있는 명령어입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.player_only"));
             return;
         }
         Player p = (Player) sender;
@@ -368,34 +368,34 @@ public class DPICFunction {
 
     public static void addCommandReward(CommandSender sender, String rewardName, String command) {
         if (!isExistReward(rewardName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 리워드 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_found"));
             return;
         }
         Reward reward = plugin.rewards.get(rewardName);
         reward.getCommandRewards().add(command);
         plugin.rewards.put(rewardName, reward);
         plugin.rewards.saveAll();
-        sender.sendMessage(plugin.getPrefix() + "§a성공적으로 리워드에 커맨드를 추가하였습니다.");
+        sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.command_added"));
     }
 
     public static void removeCommandReward(CommandSender sender, String rewardName, String index) {
         if (!isExistReward(rewardName)) {
-            sender.sendMessage(plugin.getPrefix() + "§c존재하지 않는 리워드 이름입니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.not_found"));
             return;
         }
         Reward reward = plugin.rewards.get(rewardName);
         try {
             int i = Integer.parseInt(index);
             if (i < 1 || i > reward.getCommandRewards().size()) {
-                sender.sendMessage(plugin.getPrefix() + "§c올바른 인덱스가 아닙니다.");
+                sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.invalid_index"));
                 return;
             }
             reward.getCommandRewards().remove(i - 1);
             plugin.rewards.put(rewardName, reward);
             plugin.rewards.saveAll();
-            sender.sendMessage(plugin.getPrefix() + "§a성공적으로 리워드에서 커맨드를 제거하였습니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.reward.command_removed"));
         } catch (NumberFormatException e) {
-            sender.sendMessage(plugin.getPrefix() + "§c올바른 숫자가 아닙니다.");
+            sender.sendMessage(plugin.getPrefix() + plugin.getLang().get("func.error.not_a_number"));
         }
     }
 }

@@ -83,7 +83,7 @@ public class Category implements DataCargo {
 
     public void openInventoryForUser(Player p) {
         if (plugin.checkItem == null) {
-            p.sendMessage("§c[DPIC] §f체크 아이템이 설정되지 않았습니다. 관리자에게 문의하세요.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event.checkitem.notset"));
             return;
         }
         if (inventory != null) {
@@ -98,7 +98,7 @@ public class Category implements DataCargo {
                     if (user.getCollections().get(name).containsKey(pageItem.getPage())) {
                         if (user.getCollections().get(name).get(pageItem.getPage()).contains(pageItem.getSlot())) {
                             pageItem.setItem(plugin.checkItem.clone());
-                        }else{
+                        } else {
                             pageItem.setItem(NBT.setStringTag(item, "dpic_item", "true"));
                         }
                     } else {
@@ -117,22 +117,21 @@ public class Category implements DataCargo {
     }
 
     public void collect(Player p, DInventory inv, DInventory.PageItemSet pageItem) {
-        System.out.println("collect called : " + pageItem.getPage() + " : " + pageItem.getSlot());
         if (plugin.checkItem == null) {
-            p.sendMessage("§c[DPIC] §f체크 아이템이 설정되지 않았습니다. 관리자에게 문의하세요.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event.checkitem.notset"));
             return;
         }
         if (inv != null) {
             CollectionUser user = plugin.udata.get(p.getUniqueId());
             if (user.hasCollected(getName(), pageItem.getPage(), pageItem.getSlot())) {
-                p.sendMessage("이미 수집한 아이템입니다.");
+                p.sendMessage(plugin.getPrefix() + plugin.getLang().get("obj.collection.alreadycollected"));
                 return;
             }
             ItemStack item = pageItem.getItem();
             for (ItemStack pi : p.getInventory().getStorageContents()) {
                 if (item.isSimilar(pi) && item.getAmount() <= pi.getAmount()) {
                     p.getInventory().removeItem(item);
-                    p.sendMessage("아이템 수집 완료!");
+                    p.sendMessage(plugin.getPrefix() + plugin.getLang().get("obj.collection.collected"));
                     plugin.udata.put(p.getUniqueId(), user.collect(this.name, pageItem.getPage(), pageItem.getSlot()));
                     inv.setPageItem(pageItem.getSlot(), NBT.setStringTag(plugin.checkItem.clone(), "dpic_collected", "true"));
                     inv.update();
@@ -178,7 +177,7 @@ public class Category implements DataCargo {
                 this.rewards.put(Integer.parseInt(slot), reward);
             });
         }
-        this.inventory = new DInventory("아이템 콜렉션", 54, true, true, plugin).deserialize(data);
+        this.inventory = new DInventory(plugin.getLang().getWithArgs("inv.title.collection", name), 54, true, true, plugin).deserialize(data);
         this.maxPage = this.inventory.getPages();
         return this;
     }

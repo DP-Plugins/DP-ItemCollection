@@ -59,7 +59,7 @@ public class Reward implements DataCargo {
 
     public boolean giveReward(Player p) {
         if (plugin.checkItem == null) {
-            p.sendMessage("§c[DPIC] §f체크 아이템이 설정되지 않았습니다. 관리자에게 문의하세요.");
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event.checkitem.notset"));
             return false;
         }
         if (inventory != null) {
@@ -71,7 +71,7 @@ public class Reward implements DataCargo {
                     }
                 }
             } else {
-                p.sendMessage(plugin.prefix + "인벤토리에 아이템을 넣을 공간이 부족합니다. 인벤토리를 정리해주세요.");
+                p.sendMessage(plugin.getPrefix() + plugin.getLang().get("player.inventory.full"));
                 return false;
             }
         }
@@ -108,7 +108,7 @@ public class Reward implements DataCargo {
                     }
                 });
             }
-            this.inventory = new DInventory("아이템 콜렉션 리워드", 27, plugin).deserialize(data);
+            this.inventory = new DInventory(plugin.getLang().getWithArgs("inv.title.reward", name), 27, plugin).deserialize(data);
             return this;
         }
         return null;
