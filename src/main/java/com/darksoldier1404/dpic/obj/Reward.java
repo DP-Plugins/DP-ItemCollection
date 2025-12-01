@@ -59,7 +59,7 @@ public class Reward implements DataCargo {
 
     public boolean giveReward(Player p) {
         if (plugin.checkItem == null) {
-            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event.checkitem.notset"));
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event_checkitem_notset"));
             return false;
         }
         if (inventory != null) {
@@ -71,7 +71,7 @@ public class Reward implements DataCargo {
                     }
                 }
             } else {
-                p.sendMessage(plugin.getPrefix() + plugin.getLang().get("player.inventory.full"));
+                p.sendMessage(plugin.getPrefix() + plugin.getLang().get("player_inventory_full"));
                 return false;
             }
         }
@@ -108,7 +108,7 @@ public class Reward implements DataCargo {
                     }
                 });
             }
-            this.inventory = new DInventory(plugin.getLang().getWithArgs("inv.title.reward", name), 27, plugin).deserialize(data);
+            this.inventory = new DInventory(plugin.getLang().getWithArgs("inv_title_reward", name), 27, plugin).deserialize(data);
             return this;
         }
         return null;

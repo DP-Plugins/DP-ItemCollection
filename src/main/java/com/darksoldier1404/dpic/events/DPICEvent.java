@@ -92,15 +92,15 @@ public class DPICEvent implements Listener {
                     boolean canClaim = NBT.getBooleanTag(item, "dpic_canclaim");
                     boolean isClaimed = NBT.getBooleanTag(item, "dpic_claimed");
                     if (isClaimed) {
-                        p.sendMessage(plugin.prefix + plugin.getLang().get("event.reward.alreadyclaimed"));
+                        p.sendMessage(plugin.prefix + plugin.getLang().get("event_reward_alreadyclaimed"));
                         return;
                     }
                     if (!canClaim) {
-                        p.sendMessage(plugin.prefix + plugin.getLang().get("event.reward.notavailable"));
+                        p.sendMessage(plugin.prefix + plugin.getLang().get("event_reward_notavailable"));
                         return;
                     }
                     if (plugin.checkItem == null) {
-                        p.sendMessage(plugin.prefix + plugin.getLang().get("event.checkitem.notset"));
+                        p.sendMessage(plugin.prefix + plugin.getLang().get("event_checkitem_notset"));
                         return;
                     }
                     String rewardKey = NBT.getStringTag(item, "dpic_rewardname");
@@ -114,7 +114,7 @@ public class DPICEvent implements Listener {
                             } else {
                                 user.claimCategoryReward(category.getName(), step);
                             }
-                            p.sendMessage(plugin.prefix + plugin.getLang().getWithArgs("event.reward.claimed", category.getName()));
+                            p.sendMessage(plugin.prefix + plugin.getLang().getWithArgs("event_reward_claimed", category.getName()));
                             user.openRewardClaimInventory(p, category.getName(), category.isTotalRewardCategory());
                         }
                     }

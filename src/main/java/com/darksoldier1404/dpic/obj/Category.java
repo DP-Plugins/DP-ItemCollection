@@ -83,7 +83,7 @@ public class Category implements DataCargo {
 
     public void openInventoryForUser(Player p) {
         if (plugin.checkItem == null) {
-            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event.checkitem.notset"));
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event_checkitem_notset"));
             return;
         }
         if (inventory != null) {
@@ -118,20 +118,20 @@ public class Category implements DataCargo {
 
     public void collect(Player p, DInventory inv, DInventory.PageItemSet pageItem) {
         if (plugin.checkItem == null) {
-            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event.checkitem.notset"));
+            p.sendMessage(plugin.getPrefix() + plugin.getLang().get("event_checkitem_notset"));
             return;
         }
         if (inv != null) {
             CollectionUser user = plugin.udata.get(p.getUniqueId());
             if (user.hasCollected(getName(), pageItem.getPage(), pageItem.getSlot())) {
-                p.sendMessage(plugin.getPrefix() + plugin.getLang().get("obj.collection.alreadycollected"));
+                p.sendMessage(plugin.getPrefix() + plugin.getLang().get("obj_collection_alreadycollected"));
                 return;
             }
             ItemStack item = pageItem.getItem();
             for (ItemStack pi : p.getInventory().getStorageContents()) {
                 if (item.isSimilar(pi) && item.getAmount() <= pi.getAmount()) {
                     p.getInventory().removeItem(item);
-                    p.sendMessage(plugin.getPrefix() + plugin.getLang().get("obj.collection.collected"));
+                    p.sendMessage(plugin.getPrefix() + plugin.getLang().get("obj_collection_collected"));
                     plugin.udata.put(p.getUniqueId(), user.collect(this.name, pageItem.getPage(), pageItem.getSlot()));
                     inv.setPageItem(pageItem.getSlot(), NBT.setStringTag(plugin.checkItem.clone(), "dpic_collected", "true"));
                     inv.update();
@@ -177,7 +177,7 @@ public class Category implements DataCargo {
                 this.rewards.put(Integer.parseInt(slot), reward);
             });
         }
-        this.inventory = new DInventory(plugin.getLang().getWithArgs("inv.title.collection", name), 54, true, true, plugin).deserialize(data);
+        this.inventory = new DInventory(plugin.getLang().getWithArgs("inv_title_collection", name), 54, true, true, plugin).deserialize(data);
         this.maxPage = this.inventory.getPages();
         return this;
     }
