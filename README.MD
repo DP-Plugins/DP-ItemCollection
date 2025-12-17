@@ -1,6 +1,7 @@
 <center><img src="https://i.postimg.cc/MKPVVR1s/dplogo-512.png" alt="logo"></center>
 <center><img src="https://i.postimg.cc/RZ9dqPFx/introduce.png" alt="introduce"></center>
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qUEmSENhzcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+Example Video : https://youtu.be/qUEmSENhzcw
 
 This plugin helps players on a Minecraft server collect various items and receive special rewards upon achieving goals. Run fun and easy item collection events without complicated setup!
 
